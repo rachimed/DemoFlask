@@ -1,8 +1,10 @@
 from flask import Flask, render_template, request,  url_for, redirect
-# import pandas as pd
+import pandas as pd
+from Models.Classifier import model
 
 # instanciation off app Flask
 app = Flask(__name__)
+
 
 #! Routes
 @app.route("/")
@@ -15,26 +17,36 @@ def home():
 
 @app.route('/form', methods=["POST", "GET"])
 def form():
-    data =242
+    
     
     if request.method == 'POST':
-        print("post")
-        age = request.form.get('age')
-        sex = request.form['sex']
-        pclass = request.form['class']
+        data = {}
+        age = int(request.form['age'])
+        sex = int(request.form['sex'])
+        pclass = int(request.form['class'])
+        
+        data={
+            'age':age,
+            'sex': sex,
+            'pclass': pclass
+        }
+        # data['age'] =age
+        # data['sex'] =sex
+        # data['pclass'] =pclass
+        df = pd.DataFrame(data, index=[0])
+        
+        result = model.survie(df)
+        
         print(age, sex, pclass)
-    result = data
-    return render_template('form.html', result=result, title="resultat")
+        
+        return render_template('form.html', result=result, title="resultat")
+    else:
+        return render_template('form.html', title="resultat")
 
 
 
 
-# @app.route("/add_nbre")
-# def fct_add():
-#     nbre= request.args.get('nbre')
-#     nbre=Mathematica.addition(int(nbre))
-#     return f'<h1>Addition + 100 = {nbre}'
 
 # Variables environement
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0', port=8080)
+    app.run(port=8080)
