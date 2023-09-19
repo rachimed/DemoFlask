@@ -1,0 +1,33 @@
+{%extends "layout.html" %}
+{%block content %}
+    <h3>Formulaire  </h3>
+    <form id="survival-form"  action="/form" method="POST">
+        <div class="mb-3">
+            <label for="age" class="form-label">Âge :</label>
+            <input type="text" class="form-control" id="age" name="age" required>
+        </div>
+        <div class="mb-3">
+            <label for="sex" class="form-label">Sexe :</label>
+            <select class="form-select" id="sex" name="sex" required>
+                <option value="1">Homme</option>
+                <option value="0">Femme</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="class" class="form-label">Class :</label>
+            <select class="form-select" id="class" name="class" required>
+                <option value="1">1st Class</option>
+                <option value="2">2nd Class</option>
+                <option value="3">3rd Class</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Prédire la survie</button>
+    </form>
+    <div>
+        {% if result %}
+
+            <p>{{result}}</p>
+    
+        {%endif%}
+     <div>
+{%endblock%}
